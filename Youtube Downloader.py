@@ -33,6 +33,8 @@ app.iconbitmap('ico.ico')
 # Create a variable to store the YouTube video URL
 link = ctk.StringVar(value="")
 
+type = ctk.IntVar()
+
 # Create a label and entry field for the user to enter the URL
 label = ctk.CTkLabel(app, text="Youtube Downloader!", text_color='#c13349', font=('LDFComicSans', 48))
 label.place(x=145, y=95)
@@ -40,11 +42,24 @@ Entry1 = ctk.CTkEntry(app, height=45, width=500, textvariable=link)
 Entry1.place(x=122, y=190)
 
 # Create a button that the user can click to download the video
+def sel_type():
+    typ = type.get()
+    value1 = "https://www.youtube.com/watch?v="
+    value2 = "https://www.youtube.com/playlist?list="
+    if(typ == 1):
+        link.set(value1)
+    elif(typ == 2):
+        link.set(value2)
 def youtube_downloader():
     url = YouTube(str(link.get()))
     downloader = url.streams.get_highest_resolution()
     downloader.download(filename='video.mp4')
 
+RadioBtn1 = ctk.CTkRadioButton(app ,text="Video" ,text_color="#c13349" ,font=('LDFComicSans', 24) ,variable=type ,value=1 ,command=lambda: sel_type())
+RadioBtn1.place(x = 135, y = 255)
+
+RadioBtn2 = ctk.CTkRadioButton(app ,text="Play List" ,text_color="#c13349" ,font=('LDFComicSans', 24) ,variable=type ,value=2 ,command=lambda: sel_type())
+RadioBtn2.place(x = 535, y = 255)
 Button1 = ctk.CTkButton(app, height=45, width=200, text="Download", text_color='#c13349', font=('Roboto Mono', 25),
                         command=youtube_downloader)
 Button1.place(x=272, y=320)
